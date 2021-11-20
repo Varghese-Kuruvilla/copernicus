@@ -6,8 +6,6 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   geometry_msgs
   copernicus_msgs
-  teleop_twist_joy
-  teleop_twist_keyboard
 )
 
 catkin_package(
@@ -23,23 +21,7 @@ include_directories(
 )
 
 add_library(copernicus_joy_teleop src/joy_teleop.cpp)
+
 add_executable(copernicus_joy_teleop_node src/joy_teleop_node.cpp)
+
 target_link_libraries(copernicus_joy_teleop_node copernicus_joy_teleop ${catkin_LIBRARIES})
-
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  PATTERN ".svn" EXCLUDE
-)
-
-install(TARGETS
-        copernicus_joy_teleop
-        copernicus_joy_teleop_node
-        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  DIRECTORY config launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)

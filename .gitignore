@@ -1,0 +1,3 @@
+copernicus_base/src/*
+copernicus_base/include/*
+copernicus_base/CMakeLists.txt

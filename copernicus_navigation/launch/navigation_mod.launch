@@ -2,7 +2,7 @@
 <launch>
     <arg name="odom_topic" default="odometry/filtered"/>
     <arg name="gmapping" default="false"/>
-    <arg name="scan_topic" default="scan" />
+    <arg name="scan_topic" default="scan_filtered" />
     <arg name="base_global" default="global_planner/GlobalPlanner"/>
     <arg name="base_local" default="dwa_local_planner/DWAPlannerROS"/>
 
@@ -15,7 +15,7 @@
     <arg name="amcl_init_pose_y" default="0"/>
     <arg name="amcl_init_pose_yaw" default="0"/>
 
-    <arg name="map_file" default="$(find copernicus_navigation)/maps/gazebo.yaml"/>
+    <arg name="map_file" default="$(find copernicus_navigation)/maps/small_warehouse_real.yaml"/>
 
     <node pkg="amcl" type="amcl" name="amcl" unless="$(arg gmapping)">
         <rosparam file="$(find copernicus_navigation)/config/amcl.yaml" command="load"/>
@@ -49,12 +49,12 @@
         <rosparam file="$(find copernicus_navigation)/config/global_planner.yaml" command="load"/>
         <rosparam file="$(find copernicus_navigation)/config/local_planner.yaml" command="load"/>
 
-        <rosparam file="$(find copernicus_navigation)/config/costmap.yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find copernicus_navigation)/config/costmap.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find copernicus_navigation)/config/costmap_testing.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find copernicus_navigation)/config/costmap_testing.yaml" command="load" ns="local_costmap" />
 
-        <rosparam file="$(find copernicus_navigation)/config/costmap_local.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find copernicus_navigation)/config/costmap_local_testing.yaml" command="load" ns="local_costmap" />
 
-        <rosparam file="$(find copernicus_navigation)/config/costmap_global.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find copernicus_navigation)/config/costmap_global_testing.yaml" command="load" ns="global_costmap" />
     </node>
 
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" unless="$(arg gmapping)"/>

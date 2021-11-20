@@ -4,3 +4,10 @@ scan_filter_chain:
   params:
     lower_angle: -1.57
     upper_angle: 1.57
+    # box_frame: lms
+    # min_x: -2.0
+    # min_y: -2.0
+    # min_z: -2.0
+    # max_x: 2.0
+    # max_y: 2.0
+    # max_z: 2.0

@@ -7,9 +7,9 @@ find_package(catkin REQUIRED COMPONENTS
   robot_localization
 )
 
-catkin_package()
+catkin_package(
+)
 
-install(
-  DIRECTORY launch config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+include_directories(
+  ${catkin_INCLUDE_DIRS}
 )

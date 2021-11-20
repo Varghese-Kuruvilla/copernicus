@@ -1,0 +1,14 @@
+image: small_warehouse_real_plain.pgm
+resolution: 0.050000
+origin: [-10.000000, -10.000000, 0.000000]
+# origin: [-22.000000, -22.000000, 0.0000] #For hvflip
+# origin: [-22.000000, -10.000000, 0.0000] #For hflip
+# origin: [-10.000000, -21.000000, 0.0000] #For vflip
+# origin: [-22.000000, -10.000000, 0.0000] #For 90 degrees
+
+
+
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

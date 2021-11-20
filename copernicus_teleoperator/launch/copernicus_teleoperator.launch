@@ -4,6 +4,7 @@
 
     <rosparam command="load" file="$(find copernicus_teleoperator)/config/joy.yaml" unless="$(arg keyboard)" />
 
+    <!--This node runs on the Rpi4-->
     <node pkg="joy" type="joy_node" name="joy_node"  unless="$(arg keyboard)" />
 
     <node pkg="copernicus_teleoperator" type="copernicus_joy_teleop_node" name="joy_teleop" output="screen" unless="$(arg keyboard)">

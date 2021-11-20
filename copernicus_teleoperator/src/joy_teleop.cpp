@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2021, Botsync Pte. Ltd.
+Copyright (c) 2018, Botsync Pte. Ltd.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -28,10 +28,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include <copernicus_teleoperator/joy_teleop.h>
+#include <iostream>
+
+using namespace std;
 
 void joy_callback(const sensor_msgs::Joy::ConstPtr& joy) {
     geometry_msgs::Twist cmd;
-
     if (enable_e_stop && joy->buttons[e_stop_button] && !e_stop_status) {
         std_msgs::Bool e_stop_msg;
 
@@ -74,8 +76,6 @@ void joy_callback(const sensor_msgs::Joy::ConstPtr& joy) {
         cmd.angular.x = 0.0;
         cmd.angular.y = 0.0;
         cmd.angular.z = max_angular_speed * joy->axes[angular_speed_axis];
-	dead_man = true;
-	cmd_to_send = cmd;
     } else {
         cmd.linear.x = 0.0;
         cmd.linear.y = 0.0;
@@ -83,7 +83,6 @@ void joy_callback(const sensor_msgs::Joy::ConstPtr& joy) {
         cmd.angular.x = 0.0;
         cmd.angular.y = 0.0;
         cmd.angular.z = 0.0;
-	dead_man = false;
     }
 
     cmd_vel_pub.publish(cmd);

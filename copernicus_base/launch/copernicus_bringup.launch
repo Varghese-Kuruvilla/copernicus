@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="um7_imu" default="true"/>
+    <arg name="sick_lms151" default="false"/>
+    <arg name="os1_lidar" default="false"/>
+    <arg name="velodyne_vlp16" default="true"/>
+    <arg name="wit_wt901c_imu" default="false"/>
+    <group>
+        <!-- MODEL DESCRIPTION PATH -->
+        <arg name="model" default="$(find copernicus_description)/urdf/copernicus.xacro"/>
+
+        <!-- LOAD ROBOT DESCRIPTION PARAM -->
+       <!--  <param name="robot_description" command="$(find xacro)/xacro.py inorder $(arg model) um7_imu:=$(arg um7_imu) sick_lms151:=$(arg sick_lms151) os1_lidar:=$(arg os1_lidar)"/> -->
+
+       <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(arg model) imu_enabled:=$(arg um7_imu) sick_lms151_enabled:=$(arg sick_lms151) velodyne_enabled:=$(arg velodyne_vlp16)"/>
+
+        <!-- COPERNICUS ROS CONTROL NODE -->
+        <node name="copernicus_base" pkg="copernicus_base" type="copernicus_base" output="screen" />
+
+        <!-- SERIAL COMMUNICATION FOR LOWER LEVEL -->
+        <node name="SerialComm" pkg="rosserial_python" type="serial_node.py" output="screen">
+          <param name="port" value="/dev/mcu" />
+          <param name="baud" value="115200" />
+        </node>
+
+        <!-- ROS CONTROL PARAMETERS -->
+        <include file="$(find copernicus_control)/launch/control.launch">
+        </include>
+
+        <!-- ROBOT STATE AND JOINT STATE PARAMETERS -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+        <!-- TELEOPERATOR NODE -->
+        <include file="$(find copernicus_teleoperator)/launch/copernicus_teleoperator.launch">
+        </include>
+
+        <!-- Node for Odometry computation-->
+        <node name="odompublisher" pkg="compute_odom" type="odometry_publisher.py" output="screen"/>
+
+        <!-- EKF NODE -->
+	      <include file="$(find copernicus_localization)/launch/localization.launch"/>
+        <!-- </include> -->
+
+
+        <!-- ROBOT POSE PUBLISHER -->
+        <node name="robot_pose_publisher" pkg="robot_pose_publisher" type="robot_pose_publisher"/>
+    </group>
+</launch>

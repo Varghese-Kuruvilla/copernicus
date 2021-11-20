@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2021, Botsync Pte. Ltd.
+Copyright (c) 2018, Botsync Pte. Ltd.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -52,8 +52,5 @@ ros::Subscriber pb_flags_subscriber;
 
 ros::Publisher cmd_vel_pub;
 ros::Publisher e_stop_pub;
-
-bool dead_man = false;
-geometry_msgs::Twist cmd_to_send;
 
 void joy_callback(const sensor_msgs::Joy::ConstPtr& joy);
