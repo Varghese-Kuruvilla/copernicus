@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <rosparam command="load" file="$(find teleop_node)/config/teleop_params.yaml"/>
+    <node pkg="teleop_node" type="ui_to_velocity.py" name="ui_to_velocity" output="screen">
+    </node>
+</launch>
