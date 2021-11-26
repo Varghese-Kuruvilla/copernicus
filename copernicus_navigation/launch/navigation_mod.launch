@@ -47,7 +47,7 @@
         <param name="base_local_planner" value="$(arg base_local)"/>
 
         <rosparam file="$(find copernicus_navigation)/config/global_planner.yaml" command="load"/>
-        <rosparam file="$(find copernicus_navigation)/config/local_planner.yaml" command="load"/>
+        <rosparam file="$(find copernicus_navigation)/config/local_planner_original.yaml" command="load"/>
 
         <rosparam file="$(find copernicus_navigation)/config/costmap_testing.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find copernicus_navigation)/config/costmap_testing.yaml" command="load" ns="local_costmap" />

@@ -8,6 +8,7 @@ import serial
 import numpy as np
 import math
 from sys import exit
+import os
 
 class Readgps():
     def __init__(self):
@@ -16,11 +17,15 @@ class Readgps():
         self.altitude = None
         #Constants used for conversion
         self.a = 6378137.0 #Radius of the earth
+        self.odom_origin = np.array([0 , 0])
+        #Counter for initializing GPS
+        self.gps_counter = 0
         #Rospy publisher
         rospy.init_node('gps_publisher')
         self.pub = rospy.Publisher('gps_odom',Odometry,queue_size=50)
         self.rate = rospy.Rate(1.0)
-
+        # rospy.spin()
+    
     def read_gps(self):
         '''
         Read Lat, Long and altitude values
@@ -32,41 +37,54 @@ class Readgps():
                 line = line.decode('utf-8')
                 splitline = line.split(',')
                 if splitline[0] == '$GPGGA':
-                    lat = splitline[2]
-                    lat_deg = lat[:2] 
-                    lat_min = lat[2:] 
+                    #########################################################
+                    if splitline[6] == '0':
+                        print("Current GPS data invalid")
+                        self.gps_counter = 0
+                    #########################################################
+                    else:
+                        print("GPS Initalization")
+                        lat = splitline[2]
+                        lat_deg = lat[:2] 
+                        lat_min = lat[2:] 
+                        latdirection = splitline[3]
+                        lon = splitline[4]
+                        lon_deg = lon[:3].lstrip("0")
+                        lon_min = lon[3:]
 
-                    latdirection = splitline[3]
-                    
-                    lon = splitline[4]
-                    lon_deg = lon[:3].lstrip("0")
-                    lon_min = lon[3:]
+                        londirection = splitline[5]
+                        
+                        # self.latitude = lat_deg +' deg ' + lat_min +"'" + latdirection
+                        # self.longitude = lon_deg + ' deg ' + lon_min + "'" + londirection
 
-                    londirection = splitline[5]
-                    
-                    # self.latitude = lat_deg +' deg ' + lat_min +"'" + latdirection
-                    # self.longitude = lon_deg + ' deg ' + lon_min + "'" + londirection
+                        # self.altitude = splitline[9]
 
-                    # self.altitude = splitline[9]
-
-                    # print('lat:', self.latitude)
-                    # print('lon:', self.longitude)
-                    # print('altitude(M):',self.altitude)
-                    self.latitude = int(lat_deg) + float(lat_min)/60
-                    self.longitude = int(lon_deg) + float(lon_min)/60
-                    self.altitude = float(splitline[9])
-                    #Convert to xyz
-                    self.conv_realtive()
-                    #Publish
-                    self.publish()
-                    self.rate.sleep()
+                        # print('lat:', self.latitude)
+                        # print('lon:', self.longitude)
+                        # print('altitude(M):',self.altitude)
+                        self.latitude = int(lat_deg) + float(lat_min)/60
+                        self.longitude = int(lon_deg) + float(lon_min)/60
+                        self.altitude = float(splitline[9])
+                        #Convert to xyz
+                        self.conv_relative()
+                        if not self.gps_counter:
+                            print("Starting robot_localization node")
+                            os.system('roslaunch copernicus_localization localization.launch')
+                            self.odom_origin[0] = self.x
+                            self.odom_origin[1] = self.y
+                            self.x = 0
+                            self.y = 0
+                            self.gps_counter += 1
+                        #Publish
+                        self.publish()
+                        self.rate.sleep()
             except Exception as e:
                 print('error', e)
             # except KeyboardInterrupt:
                 # exit()
     
 
-    def conv_realtive(self):
+    def conv_relative(self):
         '''
         Convert to relative coordinates using mercartor scale
         '''
@@ -77,7 +95,9 @@ class Readgps():
         #Constants used for conversion
         s = np.cos(self.latitude * np.pi/180)
         self.x = s * self.a * (np.pi*self.longitude/180)
-        self.y = s * self.a * np.log(np.tan(np.pi*(90 + self.latitude)/360)) 
+        self.x = self.x - self.odom_origin[0]
+        self.y = s * self.a * np.log(np.tan(np.pi*(90 + self.latitude)/360))
+        self.y = self.y - self.odom_origin[1]
         self.z = self.altitude
     
 
