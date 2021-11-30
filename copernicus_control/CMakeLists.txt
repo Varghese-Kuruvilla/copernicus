@@ -11,3 +11,16 @@ find_package(catkin REQUIRED COMPONENTS
   twist_mux
   gazebo_ros_control
 )
+
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES simple_navigation_goals
+#  CATKIN_DEPENDS actionlib move_base_msgs roscpp
+#  DEPENDS system_lib
+)
+
+include_directories(${catkin_INCLUDE_DIRS})
+add_executable(halt_vehicle src/halt_vehicle.cpp)
+target_link_libraries(halt_vehicle ${catkin_LIBRARIES})
+
+

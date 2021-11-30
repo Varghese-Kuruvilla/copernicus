@@ -9,6 +9,7 @@ class Uiteleop():
     def __init__(self):
         self.x_coord = 0
         self.y_coord = 0
+        self.estop = False
         rospy.init_node('ui_listener',anonymous=True)
         rospy.Subscriber('coord',String,self.ui_callback)
         self.cmd_vel_pub = rospy.Publisher('joy/cmd_vel',Twist, queue_size=10)
@@ -27,8 +28,15 @@ class Uiteleop():
         print(msg)
         #NOTE: x corresponds to horizontal motion and y corresponds to vertical motion of the 
         #virtual joystick
+        self.estop = msg['stop']
+        print("self.estop:",self.estop)
+        # if(self.estop == True):
+        #     self.x_coord = 0.0
+        #     self.y_coord = 0.0
+        # else:
         self.x_coord = float(msg['x'])
         self.y_coord = float(msg['y'])
+        
         self.publish_cmd_vel()
 
     def publish_cmd_vel(self):

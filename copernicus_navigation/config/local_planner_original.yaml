@@ -30,8 +30,10 @@ DWAPlannerROS:
   min_rot_vel: 0.1
   trans_stopped_vel: 0.08
   rot_stopped_vel: 0.08
-  yaw_goal_tolerance: 0.15
-  xy_goal_tolerance: 0.15
+  # yaw_goal_tolerance: 0.15
+  # xy_goal_tolerance: 0.15
+  xy_goal_tolerance: 3.0
+  yaw_goal_tolerance: 6.28 #We don't care about the orientation 
   latch_xy_goal_tolerance: true
 
   sim_time: 2.5

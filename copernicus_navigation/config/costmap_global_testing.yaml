@@ -3,8 +3,8 @@ robot_base_frame: base_link
 static_map: true
 rolling_window: false
 track_unknown_space: false
-width: 200
-height: 200
+width: 400
+height: 400
 
 plugins:
   - {name: static,                  type: "costmap_2d::StaticLayer"}

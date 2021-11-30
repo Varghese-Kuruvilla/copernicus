@@ -39,7 +39,7 @@
         <node name="odompublisher" pkg="compute_odom" type="odometry_publisher.py" output="screen"/>
 
         <!-- EKF NODE -->
-	      <include file="$(find copernicus_localization)/launch/localization.launch"/>
+	      <!-- <include file="$(find copernicus_localization)/launch/localization.launch"/> -->
         <!-- </include> -->
 
 

@@ -1,7 +1,11 @@
 GlobalPlanner:
-  cost_factor: 3.0
-  lethal_cost: 253
-  neutral_cost: 66
-  orientation_mode: 2
-  publish_potential: true
-  use_dijkstra: true
+  old_navfn_behavior: true
+  # cost_factor: 3.0
+  # lethal_cost: 253
+  # neutral_cost: 66
+  # orientation_mode: 2
+  # publish_potential: true
+  # use_dijkstra: true
+  # use_dijkstra: true 
+  # use_grid_path: false
+

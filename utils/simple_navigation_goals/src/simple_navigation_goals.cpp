@@ -10,7 +10,7 @@ void odomcallback(const nav_msgs::Odometry::ConstPtr& msg)
 {
     float x_pos = msg->pose.pose.position.x;
     float y_pos = msg->pose.pose.position.y;
-    send_nav_goal(x_pos + 1.0,y_pos + 0.0);
+    // send_nav_goal(x_pos + 1.0,y_pos + 0.0);
 }
 
 //Sends the Navigation goal
@@ -45,8 +45,8 @@ int send_nav_goal(float x, float y)
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "simple_navigation_goals");
-  ros::NodeHandle n;
+  ros::NodeHandle n("~");
   ros::Subscriber sub = n.subscribe("/odometry/filtered",100,odomcallback);
-  send_nav_goal(3.0,0.0);
+  send_nav_goal(-18.0,-10.0);
   return 0;
 }

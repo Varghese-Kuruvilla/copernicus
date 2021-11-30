@@ -49,8 +49,8 @@ class Odompublisher():
         # self.rpm_left = rpm.left / 24.0
         # self.rpm_right = rpm.right / 24.0
         #This was calculated experimentally and needs to be improved
-        self.rpm_left = rpm.left / 40.0
-        self.rpm_right = rpm.right / 40.0
+        self.rpm_left = rpm.left / 38.0
+        self.rpm_right = rpm.right / 38.0
         self.computespeed()
         self.publish_odom()
     
