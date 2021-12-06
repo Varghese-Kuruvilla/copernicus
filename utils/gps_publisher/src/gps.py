@@ -32,6 +32,7 @@ class Readgps():
         #Rospy publisher
         rospy.init_node('gps_publisher')
         self.pub = rospy.Publisher('gps_odom',Odometry,queue_size=50)
+        # self.odom_sub = rospy.Subscriber('odometry/filtered',Odometry,odometrycb)
         self.rate = rospy.Rate(1.0)
         # rospy.spin()
     
@@ -39,7 +40,7 @@ class Readgps():
         '''
         Read Lat, Long and altitude values
         '''
-        ser = serial.Serial('/dev/ttyUSB0', 4800, timeout=5) #TODO: Write udev rules for this
+        ser = serial.Serial('/dev/ttyUSB2', 4800, timeout=5) #TODO: Write udev rules for this
         while not rospy.is_shutdown():
             try:
                 line = ser.readline()
@@ -133,10 +134,11 @@ class Readgps():
         odom.pose.pose.position.x = self.x 
         odom.pose.pose.position.y = self.y
         odom.pose.pose.position.z = self.z
+        odom.pose.pose.orientation.w = 1.0
         # odom.pose.covariance[0] = self.x_var
         # odom.pose.covariance[7] = self.y_var
-        odom.pose.covariance[0] = 100.0
-        odom.pose.covariance[7] = 100.0
+        odom.pose.covariance[0] = 1000.0
+        odom.pose.covariance[7] = 1000.0
         #publish
         self.pub.publish(odom)
     
@@ -148,11 +150,11 @@ class Readgps():
 
 if __name__ == '__main__':
     rospack = rospkg.RosPack()
-    config_file_path = rospack.get_path('gps_publisher') + '/config/config.yaml'
-    print("config_file_path:",config_file_path)
-    config_param = yaml.safe_load(open(config_file_path))
-    map_origin = config_param['map_origin']
-    Readgpsobj = Readgps(map_origin)
+    # config_file_path = rospack.get_path('gps_publisher') + '/config/config.yaml'
+    # print("config_file_path:",config_file_path)
+    # config_param = yaml.safe_load(open(config_file_path))
+    # map_origin = config_param['map_origin']
+    Readgpsobj = Readgps([0.0,0.0])
     Readgpsobj.read_gps()
 
 
