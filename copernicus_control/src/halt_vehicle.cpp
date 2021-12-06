@@ -13,7 +13,7 @@ class Stopvehicle {
     public:
         Stopvehicle(ros::NodeHandle *nh){
             cmdvel_pub = nh->advertise<geometry_msgs::Twist>("stop/cmd_vel",100);
-            human_stop_status = nh->subscribe("human_stop_status", 1000 ,&
+            human_stop_status = nh->subscribe("person", 1000 ,&
             Stopvehicle::stop_callback,this);
             //Subscribe to /human_stop_status and publish zeros on the command velocity topics
         }
@@ -35,13 +35,9 @@ class Stopvehicle {
             {
                 msg.linear.x = 0.0;
                 msg.angular.z = 0.0;
+                cmdvel_pub.publish(msg);
             }
-            else if (this->flag == 0) //Human is seen some distance away from the camera
-            {
-                msg.linear.x = 0.2;
-                msg.angular.z = 0.2;
-            }
-            cmdvel_pub.publish(msg); 
+
         }
 };
 

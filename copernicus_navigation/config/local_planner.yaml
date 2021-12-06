@@ -32,7 +32,7 @@ DWAPlannerROS:
   rot_stopped_vel: 0.2
   # yaw_goal_tolerance: 1.0
   # xy_goal_tolerance: 1.0
-  xy_goal_tolerance: 5.0
+  xy_goal_tolerance: 2.0
   yaw_goal_tolerance: 6.28
   latch_xy_goal_tolerance: true
 

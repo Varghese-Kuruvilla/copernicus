@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Localization launch file-->
+    <include file="$(find copernicus_localization)/launch/localization.launch" />
+    <!-- Navigation launch file-->
+    <include file="$(find copernicus_navigation)/launch/navigation_mod.launch" />
+    <!-- Send Goals-->
+    <!-- <include file="$(find simple_navigation_goals)/launch/nav_goals.launch" /> -->
+</launch>
+    
